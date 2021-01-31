@@ -1,0 +1,442 @@
+
+.beforget-club{
+  background: #afeb87;
+}
+.beforget-talks{
+  background: #fb856f;
+}
+a.beforget-proximamente{
+  color: white !important;
+}
+.beforget-proximamente{
+  background: #04166c;
+}
+.beforget-plus{
+  background: #666de0;
+}
+.beforget-basics{
+  background: #fa7121;
+}
+.beforget-express{
+  background: #fded74;
+}
+.beforget-talent{
+  background: #97ddda;
+}
+.bfg-button-nav:after{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 10px;
+  bottom: 0px;
+  left: 0;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+.bfg-wrapper-sesiones {
+  max-width: 810px;
+  margin: 153px auto;
+}
+.bfg-header-cover-sesiones{
+  position: relative;
+  text-align: center;
+  color: white;
+  /* background-image: linear-gradient(to bottom, #5058c9e3, #5058c9e3); */
+}
+.bfg-header-cover-sesiones.item-profile {
+  height: 220px;
+  align-items: center;
+  background-size: cover;
+  background-position: center 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.bfg-header-cover-sesiones.item-profile.bfg-has-avatar {
+  margin-bottom: 40px;
+}
+.bfg-container-title.item-profile h1{
+  padding: 0;
+  font-size: 1em;
+  line-height: 22px;
+}
+.bfg-container-title{
+  position: relative;
+  width: 70%;
+  margin: 0 auto;
+}
+.bfg-container-title h1{
+  color: white;
+  padding: 62px 0 40px;
+  letter-spacing: 0.21px;
+  font-size: 33px;
+  line-height: 39px;
+}
+
+.bfg-tag-tipo {
+  position: relative;
+  top: -15px;
+}
+
+.bfg-tag-tipo a,
+.bfg-tag-tipo a:hover{
+  position: relative;
+  margin: 0 auto;
+  font-size: 1em;
+  font-weight: 300;
+  padding: 12px 21px;
+  border-radius: 7px;
+  color:#04166c;
+}
+
+.bfg-profile-author img{
+  width: 58px;
+}
+
+.bfg-profile-author {
+  margin: 0 auto;
+  padding-bottom: 30px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.bfg-profile-author.bfg-icon-small{
+  padding-bottom: 0;
+}
+.bfg-profile-author.bfg-icon-small img{
+  width: 30px;
+}
+/* Date Sesion */
+
+
+.bfg-icon-date{
+  position: relative;
+  width: 60px;
+}
+.bfg-icon-date.inprofile{
+  width: 50px;
+}
+.bfg-icon-date img{
+  width: 100%;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  display: block;
+  margin: 29px 0 26px;
+  border: solid 1px #eeeeee;
+}
+.line.footer-date {
+  margin: 0;
+}
+
+.bfg-date-sesion{
+  align-items: center;
+}
+
+
+/* GENERAl */
+
+.bfg-restricted{
+  width: 100%;
+  height: 128px;
+}
+.bfg-restricted article{
+  margin: 26px 0 0;
+  padding: 26px 72px 33px;
+  background-image: linear-gradient(to left, #5058c9 99%, #5058c9 1%);
+}
+
+.bfg-restricted p{
+  color: white;
+  font-size: 26.4px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.32;
+  letter-spacing: 0.5px;
+}
+.bfg-restricted p{
+  margin-bottom: 0;
+}
+.bfg-restricted p a{
+  font-weight: 400;
+  color: white;
+  text-decoration: underline;
+}
+.bfg-restricted p a:hover{
+  opacity: .8;
+}
+
+
+.bfg-icon-smile{
+  position: absolute;
+  top: 14px;
+  left: 17px;
+  width: 33px;
+}
+.bfg-icon-smile.inprofile{
+  width: 23px;
+  top: 6px;
+  left: 10px;
+}
+
+
+/* Item sesiones */
+
+.bfg-header-cover-sesiones hgroup {
+  width: 100%;
+}
+.bfg-item-proyectos,
+.bfg-item-sesiones {
+  position: relative;
+  width: 32.3%;
+  margin-right: 1%;
+  margin-bottom: 30px;
+  background-color: white;
+}
+.bfg-item-proyectos:hover,
+.bfg-item-sesiones:hover {
+  box-shadow: 1px 1px 10px 0px #00000038;
+}
+.bfg-item-sesiones a,
+.bfg-item-sesiones a:hover{
+  color: black;
+}
+.bfg-item-sesiones p{
+  font-size: 1em;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.38;
+  letter-spacing: 0.18px;
+}
+.bfg-item-sesiones h2{
+  font-size: 1.1em;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.3;
+  letter-spacing: 0.08px;
+  color: white;
+}
+.bfg-item-sesiones.page-sesiones{
+  width: 323px;
+}
+/* .bfg-nav-filter{
+  position: relative;
+  max-width: 648px;
+  margin: 0 auto 20px;
+} */
+.bfg-nav-filter.loading:after{
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  width: 50px;
+  height: 50px;
+  background-image: url('http://beforgetcommunity.local/wp-content/uploads/2020/12/spinner25.gif');
+  background-size: cover;
+  background-repeat: no-repeat;
+
+}
+.bfg-nav-filter{
+  position: relative;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 15px 0 30px;
+}
+
+.bfg-wrapper-filter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 800px) {
+  .bfg-wrapper-filter{
+    position: fixed;
+    top: 77px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 82px);
+    z-index: 33;
+    background: white;
+    overflow-y: scroll;
+    transform: translateX(-100%);
+    transition: all ease 500ms;
+  }
+  .bfg-wrapper-filter.active{
+    transform: translateX(0);
+    transition: all ease 500ms;
+
+  }
+  .bfg-nav-filter{
+    margin: 0;
+  }
+}
+
+.bfg-nav-filter li{
+  position: relative;
+  width: 148px;
+  margin:10px 6px;
+}
+.bfg-nav-filter li a{
+  position: relative;
+  display: block;
+  color: #04166c;
+  text-align: center;
+  padding: 3px 0;
+  border-radius: 5.1px
+}
+.beforget-proximamente label span{
+  color: white;
+}
+
+.single-headers img.avatar{
+  margin: 0 !important;
+}
+
+.wrapper-post-list-sesiones{
+  width: 1000px;
+  margin-top: 50px;
+}
+
+@media only screen and (max-width: 968px) {
+  .bfg-item-sesiones{
+    width: 49%;
+  }
+  .bfg-wrapper-sesiones {
+    margin: 153px auto 30px;
+  }
+}
+@media only screen and (max-width: 600px) {
+  .bfg-item-sesiones{
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+
+.bfg-hash-tipo a,
+.bfg-hash-tipo a:hover{
+  display: block;
+  color: white;
+  font-weight: 100;
+  font-size: 12px;
+}
+.bfg-hash-tipo a::before{
+  content: '#';
+}
+.color-black a{
+  color: black !important;
+}
+
+.line-divisor{
+  position: relative;
+  display: block;
+  height: 10px;
+}
+.bfg-content-inprofile{
+  position: relative;
+  height: 160px;
+  padding: 13px 21px;
+  background: white;
+}
+
+.bfg-hash-tipo {
+  position: absolute;
+  bottom: 0;
+}
+.bfg-footer-item {
+  position: relative;
+  width: 100%;
+  padding: 15px 15px;
+  align-items: center;
+  background: white;
+}
+.bfg-footer-item p{
+  margin-bottom: 0;
+}
+
+.time-footer{
+  width: 100%;
+}
+@media (min-width: 768px){
+  .wrapper-post-talks {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  .item-post-talks {
+    margin: 2px 3px;
+  }
+  .item-post-talks a:hover {
+    color: rgb(228, 228, 228);
+  }
+}
+
+
+.bfg-filter-button {
+  position: relative;
+  width: auto;
+  border-radius: 5.1px;
+  margin: 4px;
+   /* margin:4px;
+   background-color:#EFEFEF;
+   border-radius:4px;
+   border:1px solid #D0D0D0;
+   overflow:auto;
+   float:left; */
+}
+
+.bfg-filter-button label {
+  position: relative;
+  display: inline-block;
+  width:100%;
+  margin-bottom: 0;
+}
+
+.bfg-filter-button label span {
+  position: relative;
+  width: 100%;
+  display: block;
+  text-align:center;
+  padding: 6px 18px;
+}
+
+.bfg-filter-button label input {
+   position:absolute;
+   top: 0px;
+   opacity: 0;
+}
+
+.bfg-filter-button input:checked + span {
+  border: 1px solid #04166c;
+  border-radius: 4px;
+}
+
+.bfg-content-category{
+  background-color: #ededed;
+  color: #5a5a5a;
+}
+.bfg-beforget-proximamente:after{
+  content: 'Próximamente';
+  position: absolute;
+  top: -20px;
+  left: 32%;
+  width: 39%;
+  height: 37.6px;
+  padding: 4.6px 0 3.2px 0;
+  border-radius: 5.1px;
+  background-color: #04166c;
+  color: white;
+  text-align: center;
+}
+.bfg-wrapper-hero-sesiones .wp-block-columns{
+  margin-bottom: 0 !important;
+}
