@@ -70,7 +70,7 @@ function searchPostContent() {
             'id'   => $post->ID,
             'bgColor' => get_post_meta($post->ID, 'brand_color'),
             'smileIcon' => wp_get_attachment_url(171),
-            'dateIcon' => wp_get_attachment_url(247),
+            'dateIcon' => get_stylesheet_directory_uri() . '/assets/images/bfg-icon-date.png',
             'avatar' => ($ponenteName !== false) ? $ponenteAvatar : wp_get_attachment_image( 805 ),
             'nombre' => $post->post_title,
             'authorDefault' => 'BeForGet',
