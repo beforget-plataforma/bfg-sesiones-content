@@ -15,7 +15,7 @@ function bfg_sesiones_script() {
   //   'sessionUserID' => $current_user->ID,
   //   'profileUserID' => $profileUserID,
   // ));
-  wp_register_script('bfgSesiones', esc_url(plugins_url('/frontend/dist/bundle.js', dirname(__FILE__) )), true);
+  wp_register_script('bfgSesiones', esc_url(plugins_url('/frontend/dist/bundle.js?v=3', dirname(__FILE__) )), true);
   wp_localize_script('bfgSesiones', 'wp_pageviews_ajax', array(
     'ajax_url' => admin_url('admin-ajax.php'),
     'nonce' => wp_create_nonce( 'wp-pageviews-nonce' ),

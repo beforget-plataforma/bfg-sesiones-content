@@ -23,6 +23,7 @@ a.beforget-proximamente{
 .beforget-talent{
   background: #97ddda;
 }
+
 .bfg-button-nav:after{
   content: '';
   position: absolute;
@@ -44,7 +45,7 @@ a.beforget-proximamente{
   /* background-image: linear-gradient(to bottom, #5058c9e3, #5058c9e3); */
 }
 .bfg-header-cover-sesiones.item-profile {
-  height: 220px;
+  height: 230px;
   align-items: center;
   background-size: cover;
   background-position: center 0;
@@ -104,7 +105,7 @@ a.beforget-proximamente{
   padding-bottom: 0;
 }
 .bfg-profile-author.bfg-icon-small img{
-  width: 30px;
+  width: 36px;
 }
 /* Date Sesion */
 
@@ -187,6 +188,7 @@ a.beforget-proximamente{
 
 .bfg-header-cover-sesiones hgroup {
   width: 100%;
+  padding-top: 20px;
 }
 .bfg-item-proyectos,
 .bfg-item-sesiones {
@@ -195,6 +197,7 @@ a.beforget-proximamente{
   margin-right: 1%;
   margin-bottom: 30px;
   background-color: white;
+  border-radius: 5px;
 }
 .bfg-item-proyectos:hover,
 .bfg-item-sesiones:hover {
@@ -205,7 +208,7 @@ a.beforget-proximamente{
   color: black;
 }
 .bfg-item-sesiones p{
-  font-size: 1em;
+  font-size: .95em;
   font-weight: 300;
   font-stretch: normal;
   font-style: normal;
@@ -213,7 +216,7 @@ a.beforget-proximamente{
   letter-spacing: 0.18px;
 }
 .bfg-item-sesiones h2{
-  font-size: 1.1em;
+  font-size: 1.2em;
   font-weight: 300;
   font-stretch: normal;
   font-style: normal;
@@ -221,9 +224,7 @@ a.beforget-proximamente{
   letter-spacing: 0.08px;
   color: white;
 }
-.bfg-item-sesiones.page-sesiones{
-  width: 323px;
-}
+
 /* .bfg-nav-filter{
   position: relative;
   max-width: 648px;
@@ -235,14 +236,14 @@ a.beforget-proximamente{
   bottom: -60px;
   width: 50px;
   height: 50px;
-  background-image: url('http://beforgetcommunity.local/wp-content/uploads/2020/12/spinner25.gif');
+  background-image: url('https://beforget.community/wp-content/uploads/2020/12/spinner25.gif');
   background-size: cover;
   background-repeat: no-repeat;
 
 }
 .bfg-nav-filter{
   position: relative;
-  width: 80%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -257,6 +258,7 @@ a.beforget-proximamente{
   flex-wrap: wrap;
 }
 
+/*
 @media only screen and (max-width: 800px) {
   .bfg-wrapper-filter{
     position: fixed;
@@ -279,6 +281,7 @@ a.beforget-proximamente{
     margin: 0;
   }
 }
+*/
 
 .bfg-nav-filter li{
   position: relative;
@@ -302,8 +305,8 @@ a.beforget-proximamente{
 }
 
 .wrapper-post-list-sesiones{
-  width: 1000px;
-  margin-top: 50px;
+	width: 1000px;
+	margin-top: 50px;
 }
 
 @media only screen and (max-width: 968px) {
@@ -344,7 +347,7 @@ a.beforget-proximamente{
 .bfg-content-inprofile{
   position: relative;
   height: 160px;
-  padding: 13px 21px;
+  padding: 25px 25px;
   background: white;
 }
 
@@ -358,6 +361,7 @@ a.beforget-proximamente{
   padding: 15px 15px;
   align-items: center;
   background: white;
+  border-radius: 0 0 5px 5px;
 }
 .bfg-footer-item p{
   margin-bottom: 0;
@@ -366,6 +370,12 @@ a.beforget-proximamente{
 .time-footer{
   width: 100%;
 }
+
+.time-footer p {
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
 @media (min-width: 768px){
   .wrapper-post-talks {
     display: flex;
@@ -394,11 +404,16 @@ a.beforget-proximamente{
    float:left; */
 }
 
+.bfg-filter-button:focus {
+  border: 2px solid #000000;
+}
+
 .bfg-filter-button label {
   position: relative;
   display: inline-block;
   width:100%;
   margin-bottom: 0;
+  cursor: pointer;
 }
 
 .bfg-filter-button label span {
@@ -416,8 +431,10 @@ a.beforget-proximamente{
 }
 
 .bfg-filter-button input:checked + span {
-  border: 1px solid #04166c;
+  /*border: 1px solid #04166c;*/
   border-radius: 4px;
+  background-color: rgba(255,255,255,.4);
+  box-shadow: 0px 0px 6px 1px #5057c9;
 }
 
 .bfg-content-category{
@@ -436,7 +453,4 @@ a.beforget-proximamente{
   background-color: #04166c;
   color: white;
   text-align: center;
-}
-.bfg-wrapper-hero-sesiones .wp-block-columns{
-  margin-bottom: 0 !important;
 }
