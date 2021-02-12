@@ -454,3 +454,15 @@ a.beforget-proximamente{
   color: white;
   text-align: center;
 }
+.ver-mas-sesiones{
+  opacity: 0;
+  visibility: hidden;
+}
+.ver-mas-sesiones.active {
+  opacity: 1;
+  visibility: visible;
+}
+.wrapper-button-pagination{
+  text-align: center;
+  margin-bottom: 56px;
+}

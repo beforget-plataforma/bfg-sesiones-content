@@ -1,23 +1,18 @@
 import template from './template';
-import handleChunk from './helpers';
 
 const bfgFilterContent = {
+  verMas: document.querySelector('.ver-mas-sesiones'),
   queryMaxWidth800: window.matchMedia("(max-width: 800px)"),
   postsTipo: [],
   postsCategory: [],
   empty: false,
+  gotoSesion: 0,
+  dataChunk: [],
+  dataLength: 0,
   init: function () {
     console.log('media query', this.queryMaxWidth800.matches);
+    
     const bfgNavFilter = document.querySelectorAll('.bfg-filter-button');
-    const bfgWrapperContainer = document.querySelector('.bfg-wrapper-container');
-
-    // bfgWrapperContainer.querySelector('#filter-sesiones-mobile').addEventListener('click', () => {
-    //   bfgWrapperContainer.querySelector('.bfg-wrapper-filter').classList.add('active');
-    // });
-    // bfgWrapperContainer.querySelector('#bfg-ver-resultados').addEventListener('click', () => {
-    //   bfgWrapperContainer.querySelector('.bfg-wrapper-filter').classList.remove('active');
-    // });
-
     bfgNavFilter.forEach((el) => {
       const input = el.querySelector('input');
       const type = input.parentElement.getAttribute('data-type')
@@ -49,33 +44,33 @@ const bfgFilterContent = {
         this.getPosts(type);
       };
     });
+    bfgFilterContent.verMas.addEventListener('click', () => {
+      console.log(bfgFilterContent.gotoSesion +1, bfgFilterContent.dataLength);
+      
+      if((bfgFilterContent.gotoSesion +1) === bfgFilterContent.dataLength){
+        bfgFilterContent.verMas.disabled = true
+        bfgFilterContent.verMas.classList.remove('active')
+      }
+      bfgFilterContent.render(bfgFilterContent.dataChunk[bfgFilterContent.gotoSesion], 'append');
+      bfgFilterContent.gotoSesion ++;
+    })
   },
-  render: (data) => {
+  render: (data, type) => {
     let temp = [];
-    const wrapperContent = document.querySelector(
-      '.wrapper-post-list-sesiones'
-    );
+    const wrapperContent = document.querySelector('.wrapper-post-list-sesiones');
     data.forEach((el) => {
       const post = template(el);
       temp.push(post);
     });
-    wrapperContent.innerHTML = temp.join('');
-    // console.log(template(data));
-  },
-  handleScroll: () => {
+    if(type === 'inner'){
+      wrapperContent.innerHTML = temp.join('');
+    }else{
+      wrapperContent.insertAdjacentHTML('beforeend', temp.join(''));
+    }
 
-  },
-  handlePagination: (data) => {// items per chunk
-    const chunk = (sesiones, size) =>
-      Array.from({ length: Math.ceil(sesiones.length / size) }, (v, i) =>
-      sesiones.slice(i * size, i * size + size)
-    ); 
-    const sesionesCunk = chunk(data, 10);
   },
   getPosts: (type) => {
     const filterSesionesTipo = document.querySelector('#bfg-filter-tipo-sesiones');
-    const totalResultados = document.querySelector('.bfg-total-resultados');
-
     const data = new FormData();
 
     if(bfgFilterContent.postsCategory.length === 0 && bfgFilterContent.postsTipo.length === 0 ){
@@ -100,20 +95,24 @@ const bfgFilterContent = {
       .then((response) => {
         return response.json();
       })
-      .then((data) => {
-        if (data) {
-          bfgFilterContent.render(data);
+      .then((sesiones) => {
+        const chunk = (arr, size) => arr.reduce((acc, e, i) => (i % size ? acc[acc.length - 1].push(e) : acc.push([e]), acc), []);
+        bfgFilterContent.dataChunk = chunk(sesiones, 9)
+        bfgFilterContent.gotoSesion = 0;
+        bfgFilterContent.dataLength = bfgFilterContent.dataChunk.length
+
+        if(bfgFilterContent.dataChunk.length > 1 ){
+          bfgFilterContent.verMas.classList.add('active')
+          bfgFilterContent.verMas.disabled = false
+        }
+        if (sesiones) {
+          bfgFilterContent.render(bfgFilterContent.dataChunk[0], 'inner');
+
           if(bfgFilterContent.empty) {
             bfgFilterContent.postsTipo = [];
             bfgFilterContent.postsCategory = [];
             bfgFilterContent.empty = false;
           }
-          // totalResultados.querySelector('p').textContent = `Total de sesiones ${data.length}`
-          // // bfgFilterContent.handlePagination(data);
-          // handleChunk(data, 10).then(e => {
-          //   console.log(e);
-          // })
-          // window.sesiones = data;
         }
         filterSesionesTipo.classList.remove('loading');
       })
@@ -126,4 +125,5 @@ const bfgFilterContent = {
 
 document.addEventListener('DOMContentLoaded', function () {
   bfgFilterContent.init();
+  bfgFilterContent.getPosts('tipo-sesion');
 });
