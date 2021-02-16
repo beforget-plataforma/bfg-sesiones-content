@@ -1,7 +1,11 @@
 import template from './template';
 
+const TIPOS_SESIONES = ["beforget-express", "beforget-club", "beforget-plus", "beforget-talent", "beforget-basics", "beforget-talks", "beforget-proximamente"];
+const CAT_SESIONES = ["branding"];
+
 const bfgFilterContent = {
   verMas: document.querySelector('.ver-mas-sesiones'),
+  bfgNavFilter: document.querySelectorAll('.bfg-filter-button'),
   queryMaxWidth800: window.matchMedia("(max-width: 800px)"),
   postsTipo: [],
   postsCategory: [],
@@ -9,11 +13,10 @@ const bfgFilterContent = {
   gotoSesion: 0,
   dataChunk: [],
   dataLength: 0,
-  init: function () {
-    console.log('media query', this.queryMaxWidth800.matches);
-    
-    const bfgNavFilter = document.querySelectorAll('.bfg-filter-button');
-    bfgNavFilter.forEach((el) => {
+  initialTaxSesiones: [],
+  initApp: false,
+  init: function() {
+    bfgFilterContent.bfgNavFilter.forEach((el) => {
       const input = el.querySelector('input');
       const type = input.parentElement.getAttribute('data-type')
       input.onclick = (e) => {
@@ -42,11 +45,10 @@ const bfgFilterContent = {
             } 
         }
         this.getPosts(type);
+        bfgFilterContent.initApp = true;
       };
     });
     bfgFilterContent.verMas.addEventListener('click', () => {
-      console.log(bfgFilterContent.gotoSesion +1, bfgFilterContent.dataLength);
-      
       if((bfgFilterContent.gotoSesion +1) === bfgFilterContent.dataLength){
         bfgFilterContent.verMas.disabled = true
         bfgFilterContent.verMas.classList.remove('active')
@@ -69,12 +71,22 @@ const bfgFilterContent = {
     }
 
   },
+  stateFilter: (state, opacity, cursor) => {
+    bfgFilterContent.bfgNavFilter.forEach(el => {
+      const _check = el.querySelector('input');
+      _check.parentElement.style.opacity = opacity;
+      _check.parentElement.style.cursor = cursor
+      _check.disabled = state;
+    })
+  },
   getPosts: (type) => {
     const filterSesionesTipo = document.querySelector('#bfg-filter-tipo-sesiones');
+    let resultadosSesionesTipo = document.querySelector('.bfg-count-resultados');
     const data = new FormData();
 
     if(bfgFilterContent.postsCategory.length === 0 && bfgFilterContent.postsTipo.length === 0 ){
-      bfgFilterContent.postsTipo = ["beforget-express", "beforget-club", "beforget-plus", "beforget-talent", "beforget-basics", "beforget-talks", "beforget-proximamente"];
+      bfgFilterContent.postsTipo = TIPOS_SESIONES;
+      // bfgFilterContent.postsCategory = CAT_SESIONES;
       bfgFilterContent.empty = true;
     }
 
@@ -86,7 +98,8 @@ const bfgFilterContent = {
     data.append('type', type);
 
     filterSesionesTipo.classList.add('loading');
-
+    resultadosSesionesTipo.innerHTML = '';
+    bfgFilterContent.stateFilter(true, .8, 'default');
     fetch(wp_pageviews_ajax.ajax_url, {
       method: 'POST',
       credentials: 'same-origin',
@@ -100,13 +113,16 @@ const bfgFilterContent = {
         bfgFilterContent.dataChunk = chunk(sesiones, 9)
         bfgFilterContent.gotoSesion = 0;
         bfgFilterContent.dataLength = bfgFilterContent.dataChunk.length
-
-        if(bfgFilterContent.dataChunk.length > 1 ){
+        if(bfgFilterContent.dataChunk.length >= 2 ){
           bfgFilterContent.verMas.classList.add('active')
           bfgFilterContent.verMas.disabled = false
+        }else{
+          bfgFilterContent.verMas.classList.remove('active')
+          bfgFilterContent.verMas.disabled = true
         }
         if (sesiones) {
           bfgFilterContent.render(bfgFilterContent.dataChunk[0], 'inner');
+          bfgFilterContent.gotoSesion = 1;
 
           if(bfgFilterContent.empty) {
             bfgFilterContent.postsTipo = [];
@@ -115,6 +131,63 @@ const bfgFilterContent = {
           }
         }
         filterSesionesTipo.classList.remove('loading');
+
+        const displayCatAndType = [...bfgFilterContent.postsCategory, ...bfgFilterContent.postsTipo];
+
+        const initialTaxSesiones = (tax) => {
+          return tax.map( taxo => {
+            return {
+              name: taxo.name,
+              slug: taxo.slug
+            }
+          })
+        };
+        let transformObjToArray = []
+        if(!Array.isArray(wp_pageviews_ajax.taxSesionesType)) {
+          for (const property in wp_pageviews_ajax.taxSesionesType) {
+            transformObjToArray.push(wp_pageviews_ajax.taxSesionesType[property]);
+          }
+        }else{
+          transformObjToArray = wp_pageviews_ajax.taxSesionesType;
+        }
+        const tipoSesiones = initialTaxSesiones(transformObjToArray);
+        const catSesiones = initialTaxSesiones(wp_pageviews_ajax.taxSesionesCat);
+
+        const getNameTypeSesiones = displayCatAndType.map(tax => {
+          const valueName = tipoSesiones.find(taxonomy => {
+            if(taxonomy.slug === tax) {
+              return taxonomy
+            }
+          });
+          return  valueName
+        })
+        const getNameCatSesiones = displayCatAndType.map(tax => {
+          const valueName = catSesiones.find(taxonomy => {
+            if(taxonomy.slug === tax) {
+              return taxonomy
+            }
+          });
+          return  valueName
+        })
+        const getNamesTaxonomies = (typeTax) => {
+          const filtered = typeTax.filter(function (el) {
+            return el != undefined;
+          });
+          return filtered
+        }
+        const displayCatAndType2 = [...getNamesTaxonomies(getNameTypeSesiones), ...getNamesTaxonomies(getNameCatSesiones)];
+        const renderDisplayCatAndType = () => {
+          const sesiones = displayCatAndType2;
+          const sesionesTem = sesiones.map(s => s.name);
+          return sesionesTem.map(tax => `<span><b> ${tax} </b></span>`)
+        }
+        const temp = renderDisplayCatAndType(displayCatAndType);
+        if(bfgFilterContent.initApp && (displayCatAndType.length > 0)) {
+          resultadosSesionesTipo.innerHTML = `<span>Hemos encontrado <b>${sesiones.length}</b> sesiones para ${temp.join(',')}.</span>`;
+        } else {
+          resultadosSesionesTipo.innerHTML = `<span>Tenemos un total de <b>${sesiones.length}</b> sesiones.</span>`;
+        };
+        bfgFilterContent.stateFilter(false, 1, 'pointer')
       })
       .catch((error) => {
         console.log('[WP Pageviews Plugin]');
