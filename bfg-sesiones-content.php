@@ -16,6 +16,8 @@ require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-style-register.p
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-post-type.php';
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-display-profile.php';
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-register-scripts.php';
+require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-shortcode.php';
+require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-display-learndash.php';
 
 function searchPostContent() {
   $searchTipo = $_POST['searchTipo'];

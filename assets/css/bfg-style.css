@@ -466,3 +466,16 @@ a.beforget-proximamente{
   text-align: center;
   margin-bottom: 56px;
 }
+
+.bfg-count-resultados{
+  width: 52%;
+  display: flex;
+  justify-content: center;
+  min-height: 27px;
+  text-align: center;
+}
+.bfg-total-resultados span{
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
