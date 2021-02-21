@@ -41,6 +41,7 @@ function bfg_create_post_type_sesiones() {
     'publicly_queryable'  => true,
     'capability_type'    => 'page',
     'map_meta_cap'       => true,
+    'show_in_rest' => true,
   );
   register_post_type( 'sesiones', $args );
 
@@ -110,6 +111,7 @@ function bfg_categoria_sesion() {
   $args = array(
     'hierarchical'      => true,
     'labels'            => $labels,
+    'show_in_rest'          => true,
     'show_ui'           => true,
     'has_archive'           => false,
 		'with_front' => false,

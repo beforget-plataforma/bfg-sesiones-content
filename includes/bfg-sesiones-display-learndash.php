@@ -36,6 +36,7 @@ function bfg_sesiones_posts_learndash($atts)
 					'category' => $tipoCategoria));
 				 $output .= ob_get_clean();
 		endwhile;
+		wp_reset_postdata();
 		if( $show_archive == 'true' ) {
 				 $output .= '<div class="full-width align-right">';
 				 $output .= '<a class="button-small inverse" href="' . get_home_url() . '/news">See All Archives</a>';

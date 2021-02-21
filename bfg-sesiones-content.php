@@ -19,5 +19,6 @@ require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-register-scripts
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-shortcode.php';
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-display-learndash.php';
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-api.php';
+require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-rest-api.php';
 
 // register_activation_hook(__FILE__, 'rewrite_flush');

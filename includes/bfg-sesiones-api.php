@@ -36,11 +36,8 @@ function searchPostContent() {
         $unixtimestamp = strtotime( $dateSesion[0] );
 
         $users = get_post_meta($post->ID, 'ponente');
-
         $ponenteName = get_userdata($users[0][0]);
         $ponenteAvatar = get_avatar($users[0][0]);
-
-
         $userName = xprofile_get_field_data('1', $users[0][0]);
         $userLastName = xprofile_get_field_data('2', $users[0][0]);
                 
@@ -70,7 +67,6 @@ function searchPostContent() {
     header("Content-type: application/json");
     echo json_encode( $listado);
     die;
-  
 }
 add_action('wp_ajax_nopriv_searchPostContent', 'searchPostContent');
 add_action('wp_ajax_searchPostContent', 'searchPostContent');
