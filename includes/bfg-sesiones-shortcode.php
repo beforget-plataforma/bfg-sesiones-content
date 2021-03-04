@@ -16,15 +16,18 @@ function bfg_sesiones_shortcode($atts)
 	$current_user = wp_get_current_user();
 	$tipoCategoria = $category;
 
+  $odsCategory = xprofile_get_field_data('341', $current_user->ID, $multi_format = 'comma');
+
 	$layoutLibrery = ["list", "block". "slide"];
 	$templateLayout = "";
 	
 	if($layout === 'list') {
 		$templateLayout = 'template-parts/content-sesiones-list';		
 	} else {
-		$templateLayout = 'template-parts/content-sesiones-item';		
+		$templateLayout = 'template-parts/content-sesiones-item';
 	}
 
+	var_dump($odsCategory);
 	$args = array(
 		'post_type' => 'sesiones',
 		'posts_per_page' => 4,
