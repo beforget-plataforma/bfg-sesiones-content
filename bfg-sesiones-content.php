@@ -22,3 +22,13 @@ require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-api.php';
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-rest-api.php';
 
 // register_activation_hook(__FILE__, 'rewrite_flush');
+
+// 
+function bfg_get_the_excerpt($post_id) {
+  global $post;  
+  $save_post = $post;
+  $post = get_post($post_id);
+  $output = get_the_excerpt();
+  $post = $save_post;
+  return $output;
+}		
