@@ -26,22 +26,33 @@ function bfg_sesiones_shortcode($atts)
 	} else {
 		$templateLayout = 'template-parts/content-sesiones-item';
 	}
+	$splitStringTemp = [];
+	$categorySplit = explode(",", $odsCategory);
+	foreach ($categorySplit as &$valor) {
+		$splitString = explode('categoria/', $valor);
+		$textCategpryArray = explode('/"', $splitString[1]);
+		array_push($splitStringTemp, $textCategpryArray[0]);
+	}
 
-	var_dump($odsCategory);
+	foreach ($splitStringTemp as &$valor) {
+		$tempTerms[] = $valor;
+	}
 	$args = array(
 		'post_type' => 'sesiones',
-		'posts_per_page' => 4,
-		'orderby' => 'random',
+		'posts_per_page' => -1,
+		'orderby' => 'DESC',
 		'tax_query' => array(
-				array(
-					'taxonomy' => 'categoria-sesion',
-					'field'    => 'slug',
-					'terms'    => $tipoCategoria,
-				),
-			),
+			'relation' => 'OR',
+			array(
+				'taxonomy' => 'categoria-sesion',
+				'field'    => 'slug',
+				'terms'    => $tempTerms,
+			)
+		),
 	);
 	$the_query = new WP_Query($args);
 	$output = '';
+
 	if ($the_query->have_posts()) {
 		$output .= '<div class="bfg-shorcode-container bb-block-header">';
 		$output .= '<h5>'.$title.'</h5>';
