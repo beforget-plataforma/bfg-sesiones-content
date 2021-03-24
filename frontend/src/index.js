@@ -1,7 +1,9 @@
 import template from './template';
 
 const TIPOS_SESIONES = ["beforget-express", "beforget-club", "beforget-plus", "beforget-talent", "beforget-basics", "beforget-talks", "beforget-proximamente"];
-const CAT_SESIONES = ["branding"];
+const CAT_SESIONES_PLA = ['empatia', 'plenitud-aventurera', 'autenticidad', 'fidelidad-creativa', 'perseverancia', 'comunicar-con-impacto'];
+const CAT_SESIONES_VCL = ['5g', 'branding', 'diseno', 'presentacion-de-proyectos', 'gestion-de-equipos'];
+const HOST_SITES = ['MacBook-Pro-de-Nacho.local', 'beforget.community', 'vodafonecampuslab.community', 'plenitudaventurera.com'];
 
 const bfgFilterContent = {
   verMas: document.querySelector('.ver-mas-sesiones'),
@@ -84,9 +86,16 @@ const bfgFilterContent = {
     let resultadosSesionesTipo = document.querySelector('.bfg-count-resultados');
     const data = new FormData();
 
+    const FETCH_TIPOS_SESIONES = wp_pageviews_ajax.taxSesionesType.map(el => {
+      return el.slug
+    })
+    const FETCH_CAT_SESIONES = wp_pageviews_ajax.taxSesionesCat.map(el => {
+      return el.slug
+    })
+
     if(bfgFilterContent.postsCategory.length === 0 && bfgFilterContent.postsTipo.length === 0 ){
-      bfgFilterContent.postsTipo = TIPOS_SESIONES;
-      // bfgFilterContent.postsCategory = CAT_SESIONES;
+      bfgFilterContent.postsTipo = FETCH_TIPOS_SESIONES;
+      // bfgFilterContent.postsCategory = FETCH_CAT_SESIONES;
       bfgFilterContent.empty = true;
     }
 
@@ -175,9 +184,8 @@ const bfgFilterContent = {
           });
           return filtered
         }
-        const displayCatAndType2 = [...getNamesTaxonomies(getNameTypeSesiones), ...getNamesTaxonomies(getNameCatSesiones)];
         const renderDisplayCatAndType = () => {
-          const sesiones = displayCatAndType2;
+          const sesiones = [...getNamesTaxonomies(getNameTypeSesiones), ...getNamesTaxonomies(getNameCatSesiones)];
           const sesionesTem = sesiones.map(s => s.name);
           return sesionesTem.map(tax => `<span><b> ${tax} </b></span>`)
         }

@@ -19,6 +19,7 @@ function bfg_sesiones_script() {
     'nonce' => wp_create_nonce( 'wp-pageviews-nonce' ),
     'taxSesionesType' => $termsType,
     'taxSesionesCat' => $termsCategory,
+    'currentSite' => gethostname(),
     'is_user_logged_in' => is_user_logged_in()
   ));
 
