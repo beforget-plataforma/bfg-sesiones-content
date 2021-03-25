@@ -1,10 +1,5 @@
 import template from './template';
 
-const TIPOS_SESIONES = ["beforget-express", "beforget-club", "beforget-plus", "beforget-talent", "beforget-basics", "beforget-talks", "beforget-proximamente"];
-const CAT_SESIONES_PLA = ['empatia', 'plenitud-aventurera', 'autenticidad', 'fidelidad-creativa', 'perseverancia', 'comunicar-con-impacto'];
-const CAT_SESIONES_VCL = ['5g', 'branding', 'diseno', 'presentacion-de-proyectos', 'gestion-de-equipos'];
-const HOST_SITES = ['MacBook-Pro-de-Nacho.local', 'beforget.community', 'vodafonecampuslab.community', 'plenitudaventurera.com'];
-
 const bfgFilterContent = {
   verMas: document.querySelector('.ver-mas-sesiones'),
   bfgNavFilter: document.querySelectorAll('.bfg-filter-button'),
@@ -82,20 +77,44 @@ const bfgFilterContent = {
     })
   },
   getPosts: (type) => {
+    let transformObjToArray = [];
+    let transformObjToArrayCatSesiones = [];
     const filterSesionesTipo = document.querySelector('#bfg-filter-tipo-sesiones');
+    let FETCH_TIPOS_SESIONES = [];
     let resultadosSesionesTipo = document.querySelector('.bfg-count-resultados');
     const data = new FormData();
 
-    const FETCH_TIPOS_SESIONES = wp_pageviews_ajax.taxSesionesType.map(el => {
-      return el.slug
-    })
-    const FETCH_CAT_SESIONES = wp_pageviews_ajax.taxSesionesCat.map(el => {
+    if(!Array.isArray(wp_pageviews_ajax.taxSesionesType)) {
+      for (const property in wp_pageviews_ajax.taxSesionesType) {
+        transformObjToArray.push(wp_pageviews_ajax.taxSesionesType[property]);
+      }
+    }else{
+      transformObjToArray = wp_pageviews_ajax.taxSesionesType;
+    }
+    
+    if(!Array.isArray(wp_pageviews_ajax.taxSesionesCat)) {
+      for (const property in wp_pageviews_ajax.taxSesionesCat) {
+        transformObjToArrayCatSesiones.push(wp_pageviews_ajax.taxSesionesCat[property]);
+      }
+    }else{
+      transformObjToArrayCatSesiones = wp_pageviews_ajax.taxSesionesCat;
+    }
+
+    if(wp_pageviews_ajax.taxSesionesType) {
+      FETCH_TIPOS_SESIONES = transformObjToArray.map(el => {
+        return el.slug
+      })
+    }
+
+    
+    const FETCH_CAT_SESIONES = transformObjToArrayCatSesiones.map(el => {
       return el.slug
     })
 
+
     if(bfgFilterContent.postsCategory.length === 0 && bfgFilterContent.postsTipo.length === 0 ){
       bfgFilterContent.postsTipo = FETCH_TIPOS_SESIONES;
-      // bfgFilterContent.postsCategory = FETCH_CAT_SESIONES;
+      bfgFilterContent.postsCategory = FETCH_CAT_SESIONES;
       bfgFilterContent.empty = true;
     }
 
@@ -119,6 +138,7 @@ const bfgFilterContent = {
       })
       .then((sesiones) => {
         const chunk = (arr, size) => arr.reduce((acc, e, i) => (i % size ? acc[acc.length - 1].push(e) : acc.push([e]), acc), []);
+
         bfgFilterContent.dataChunk = chunk(sesiones, 9)
         bfgFilterContent.gotoSesion = 0;
         bfgFilterContent.dataLength = bfgFilterContent.dataChunk.length
@@ -151,17 +171,11 @@ const bfgFilterContent = {
             }
           })
         };
-        let transformObjToArray = []
-        if(!Array.isArray(wp_pageviews_ajax.taxSesionesType)) {
-          for (const property in wp_pageviews_ajax.taxSesionesType) {
-            transformObjToArray.push(wp_pageviews_ajax.taxSesionesType[property]);
-          }
-        }else{
-          transformObjToArray = wp_pageviews_ajax.taxSesionesType;
-        }
-        const tipoSesiones = initialTaxSesiones(transformObjToArray);
-        const catSesiones = initialTaxSesiones(wp_pageviews_ajax.taxSesionesCat);
+        
 
+        const tipoSesiones = initialTaxSesiones(transformObjToArray);
+        const catSesiones = initialTaxSesiones(transformObjToArrayCatSesiones);
+        
         const getNameTypeSesiones = displayCatAndType.map(tax => {
           const valueName = tipoSesiones.find(taxonomy => {
             if(taxonomy.slug === tax) {
