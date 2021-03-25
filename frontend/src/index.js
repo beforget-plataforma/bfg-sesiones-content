@@ -100,21 +100,16 @@ const bfgFilterContent = {
       transformObjToArrayCatSesiones = wp_pageviews_ajax.taxSesionesCat;
     }
 
-    if(wp_pageviews_ajax.taxSesionesType) {
-      FETCH_TIPOS_SESIONES = transformObjToArray.map(el => {
-        return el.slug
-      })
-    }
-
-    
-    const FETCH_CAT_SESIONES = transformObjToArrayCatSesiones.map(el => {
-      return el.slug
-    })
-
 
     if(bfgFilterContent.postsCategory.length === 0 && bfgFilterContent.postsTipo.length === 0 ){
-      bfgFilterContent.postsTipo = FETCH_TIPOS_SESIONES;
-      bfgFilterContent.postsCategory = FETCH_CAT_SESIONES;
+      if(wp_pageviews_ajax.taxSesionesType) {
+        bfgFilterContent.postsTipo = transformObjToArray.map(el => {
+          return el.slug
+        })
+      }
+      bfgFilterContent.postsCategory = transformObjToArrayCatSesiones.map(el => {
+        return el.slug
+      });
       bfgFilterContent.empty = true;
     }
 
