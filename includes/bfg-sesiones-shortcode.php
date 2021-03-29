@@ -17,6 +17,7 @@ function bfg_sesiones_shortcode($atts)
 	$tipoCategoria = $category;
 
   $odsCategory = xprofile_get_field_data('341', $current_user->ID, $multi_format = 'comma');
+  $odsCategoryText = xprofile_get_field_data('341', $current_user->ID);
 
 	$layoutLibrery = ["list", "block". "slide"];
 	$templateLayout = "";
@@ -51,12 +52,14 @@ function bfg_sesiones_shortcode($atts)
 		),
 	);
 	$the_query = new WP_Query($args);
+	$termsText = implode(' ', $odsCategoryText);
 	$output = '';
 
 	if ($the_query->have_posts()) {
 		$output .= '<div class="bfg-shorcode-container bb-block-header">';
 		$output .= '<h5>'.$title.'</h5>';
-		$output .= '<div class="wrapper-post-profile flex bfg-flex-grap">';
+		$output .= '<div class="bfg-terms-fav">'.$termsText.'</div>';
+		$output .= '<div class="wrapper-post-profile flex bfg-flex-grap bfg-slick-slider">';
 		while ( $the_query->have_posts() ) : $the_query->the_post();
 				 ob_start();
 				 get_template_part( $templateLayout );
@@ -71,6 +74,7 @@ function bfg_sesiones_shortcode($atts)
 		$output .= '</div>';
 		$output .= '</div>';
 	} 
+	do_action('bfg_filter_sesiones_slick_script');
 	return $output;
 }
 

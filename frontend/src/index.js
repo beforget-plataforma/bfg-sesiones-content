@@ -80,7 +80,6 @@ const bfgFilterContent = {
     let transformObjToArray = [];
     let transformObjToArrayCatSesiones = [];
     const filterSesionesTipo = document.querySelector('#bfg-filter-tipo-sesiones');
-    let FETCH_TIPOS_SESIONES = [];
     let resultadosSesionesTipo = document.querySelector('.bfg-count-resultados');
     const data = new FormData();
 
