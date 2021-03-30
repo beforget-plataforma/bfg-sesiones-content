@@ -213,7 +213,7 @@ a.beforget-proximamente{
   font-weight: 300;
   font-stretch: normal;
   font-style: normal;
-  line-height: 1.38;
+  line-height: 1.28;
   letter-spacing: 0.18px;
 }
 .bfg-item-sesiones h2{
@@ -351,7 +351,16 @@ a.beforget-proximamente{
   padding: 25px 25px;
   background: white;
 }
-
+.bfg-content-inprofile:after {
+  content: '';
+  position: absolute;
+  width: 84%;
+  height: 35px;
+  background: white;
+  bottom: 0;
+  z-index: 333;
+  box-shadow: 0px -20px 19px 0px white;
+}
 .bfg-hash-tipo {
   position: absolute;
   bottom: 0;
