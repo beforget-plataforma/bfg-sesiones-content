@@ -1,3 +1,4 @@
+import { getServicesTerms } from './services';
 import template from './template';
 
 const bfgFilterContent = {
@@ -122,93 +123,81 @@ const bfgFilterContent = {
     filterSesionesTipo.classList.add('loading');
     resultadosSesionesTipo.innerHTML = '';
     bfgFilterContent.stateFilter(true, .8, 'default');
-    fetch(wp_pageviews_ajax.ajax_url, {
-      method: 'POST',
-      credentials: 'same-origin',
-      body: data,
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((sesiones) => {
-        const chunk = (arr, size) => arr.reduce((acc, e, i) => (i % size ? acc[acc.length - 1].push(e) : acc.push([e]), acc), []);
+    getServicesTerms(data).then(sesiones => {
+      const chunk = (arr, size) => arr.reduce((acc, e, i) => (i % size ? acc[acc.length - 1].push(e) : acc.push([e]), acc), []);
+      bfgFilterContent.dataChunk = chunk(sesiones, 9)
+      bfgFilterContent.gotoSesion = 0;
+      bfgFilterContent.dataLength = bfgFilterContent.dataChunk.length;
 
-        bfgFilterContent.dataChunk = chunk(sesiones, 9)
-        bfgFilterContent.gotoSesion = 0;
-        bfgFilterContent.dataLength = bfgFilterContent.dataChunk.length
-        if(bfgFilterContent.dataChunk.length >= 2 ){
-          bfgFilterContent.verMas.classList.add('active')
-          bfgFilterContent.verMas.disabled = false
-        }else{
-          bfgFilterContent.verMas.classList.remove('active')
-          bfgFilterContent.verMas.disabled = true
+      if(bfgFilterContent.dataChunk.length >= 2 ){
+        bfgFilterContent.verMas.classList.add('active')
+        bfgFilterContent.verMas.disabled = false
+      }else{
+        bfgFilterContent.verMas.classList.remove('active')
+        bfgFilterContent.verMas.disabled = true
+      }
+      if (sesiones) {
+        bfgFilterContent.render(bfgFilterContent.dataChunk[0], 'inner');
+        bfgFilterContent.gotoSesion = 1;
+
+        if(bfgFilterContent.empty) {
+          bfgFilterContent.postsTipo = [];
+          bfgFilterContent.postsCategory = [];
+          bfgFilterContent.empty = false;
         }
-        if (sesiones) {
-          bfgFilterContent.render(bfgFilterContent.dataChunk[0], 'inner');
-          bfgFilterContent.gotoSesion = 1;
+      }
+      filterSesionesTipo.classList.remove('loading');
 
-          if(bfgFilterContent.empty) {
-            bfgFilterContent.postsTipo = [];
-            bfgFilterContent.postsCategory = [];
-            bfgFilterContent.empty = false;
+      const displayCatAndType = [...bfgFilterContent.postsCategory, ...bfgFilterContent.postsTipo];
+
+      const initialTaxSesiones = (tax) => {
+        return tax.map( taxo => {
+          return {
+            name: taxo.name,
+            slug: taxo.slug
           }
-        }
-        filterSesionesTipo.classList.remove('loading');
-
-        const displayCatAndType = [...bfgFilterContent.postsCategory, ...bfgFilterContent.postsTipo];
-
-        const initialTaxSesiones = (tax) => {
-          return tax.map( taxo => {
-            return {
-              name: taxo.name,
-              slug: taxo.slug
-            }
-          })
-        };
-        
-
-        const tipoSesiones = initialTaxSesiones(transformObjToArray);
-        const catSesiones = initialTaxSesiones(transformObjToArrayCatSesiones);
-        
-        const getNameTypeSesiones = displayCatAndType.map(tax => {
-          const valueName = tipoSesiones.find(taxonomy => {
-            if(taxonomy.slug === tax) {
-              return taxonomy
-            }
-          });
-          return  valueName
         })
-        const getNameCatSesiones = displayCatAndType.map(tax => {
-          const valueName = catSesiones.find(taxonomy => {
-            if(taxonomy.slug === tax) {
-              return taxonomy
-            }
-          });
-          return  valueName
-        })
-        const getNamesTaxonomies = (typeTax) => {
-          const filtered = typeTax.filter(function (el) {
-            return el != undefined;
-          });
-          return filtered
-        }
-        const renderDisplayCatAndType = () => {
-          const sesiones = [...getNamesTaxonomies(getNameTypeSesiones), ...getNamesTaxonomies(getNameCatSesiones)];
-          const sesionesTem = sesiones.map(s => s.name);
-          return sesionesTem.map(tax => `<span><b> ${tax} </b></span>`)
-        }
-        const temp = renderDisplayCatAndType(displayCatAndType);
-        if(bfgFilterContent.initApp && (displayCatAndType.length > 0)) {
-          resultadosSesionesTipo.innerHTML = `<span>Hemos encontrado <b>${sesiones.length}</b> sesiones para ${temp.join(',')}.</span>`;
-        } else {
-          resultadosSesionesTipo.innerHTML = `<span>Tenemos un total de <b>${sesiones.length}</b> sesiones.</span>`;
-        };
-        bfgFilterContent.stateFilter(false, 1, 'pointer')
+      };
+      
+
+      const tipoSesiones = initialTaxSesiones(transformObjToArray);
+      const catSesiones = initialTaxSesiones(transformObjToArrayCatSesiones);
+      
+      const getNameTypeSesiones = displayCatAndType.map(tax => {
+        const valueName = tipoSesiones.find(taxonomy => {
+          if(taxonomy.slug === tax) {
+            return taxonomy
+          }
+        });
+        return  valueName
       })
-      .catch((error) => {
-        console.log('[WP Pageviews Plugin]');
-        console.error(error);
-      });
+      const getNameCatSesiones = displayCatAndType.map(tax => {
+        const valueName = catSesiones.find(taxonomy => {
+          if(taxonomy.slug === tax) {
+            return taxonomy
+          }
+        });
+        return  valueName
+      })
+      const getNamesTaxonomies = (typeTax) => {
+        const filtered = typeTax.filter(function (el) {
+          return el != undefined;
+        });
+        return filtered
+      }
+      const renderDisplayCatAndType = () => {
+        const sesiones = [...getNamesTaxonomies(getNameTypeSesiones), ...getNamesTaxonomies(getNameCatSesiones)];
+        const sesionesTem = sesiones.map(s => s.name);
+        return sesionesTem.map(tax => `<span><b> ${tax} </b></span>`)
+      }
+      const temp = renderDisplayCatAndType(displayCatAndType);
+      if(bfgFilterContent.initApp && (displayCatAndType.length > 0)) {
+        resultadosSesionesTipo.innerHTML = `<span>Hemos encontrado <b>${sesiones.length}</b> sesiones para ${temp.join(',')}.</span>`;
+      } else {
+        resultadosSesionesTipo.innerHTML = `<span>Tenemos un total de <b>${sesiones.length}</b> sesiones.</span>`;
+      };
+      bfgFilterContent.stateFilter(false, 1, 'pointer')
+    })
   },
 };
 
