@@ -134,9 +134,42 @@ a.beforget-proximamente{
 }
 
 .bfg-date-sesion{
+  width: 100%;
   align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
 }
 
+.bfg-date-wrapper{
+  display: flex;
+  align-items: center;
+  width: 49%;
+}
+.bfg-miembros-sesiones{
+  padding: 13px 21px;
+}
+.bfg-miembros-sesiones a{
+  margin-left: -5px;
+}
+.bfg-miembros-sesiones a:first-child{
+  margin-left: 0;
+}
+.bfg-miembros-sesiones img{
+  width: 40px;
+  box-shadow: 1px 1px 1px 3px white;
+  background: white;
+}
+
+.bfg-miembros-sesiones-page-list img{
+  width: 30px;
+  margin-left: -5px;
+  border: 1px solid white;
+  box-shadow: 1px 1px 1px 3px white;
+  background: white;
+}
+.bfg-miembros-sesiones-page-list img:first-child{
+  margin-left: 0;
+}
 
 /* GENERAl */
 
@@ -350,6 +383,7 @@ a.beforget-proximamente{
   height: 160px;
   padding: 25px 25px;
   background: white;
+  overflow: hidden;
 }
 /* .bfg-content-inprofile:after {
   content: '';
@@ -372,13 +406,16 @@ a.beforget-proximamente{
   align-items: center;
   background: white;
   border-radius: 0 0 5px 5px;
+  justify-content: space-between;
 }
 .bfg-footer-item p{
   margin-bottom: 0;
 }
 
 .time-footer{
-  width: 100%;
+  width: auto !important;
+  text-transform: capitalize;
+  font-size: 14px;
 }
 
 .time-footer p {
@@ -659,4 +696,11 @@ a.beforget-proximamente{
 .bfg-terms-fav ul li{
   padding: 10px;
   background-color: lavender;
+}
+
+.bfg-block.bfg-date{
+  width: 72%;
+}
+.bfg-link-author span{
+  color: white;
 }
