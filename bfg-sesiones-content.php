@@ -3,7 +3,7 @@
 Plugin Name: BFG Sesiones Content
 Plugin URI:
 Description: Post type personalizado para el contenido de tipo Sesiones
-Version:     1.0
+Version:     2.1
 Author:      Beforget
 Author URI:  https://beforget.com/
 License:     GPL2
