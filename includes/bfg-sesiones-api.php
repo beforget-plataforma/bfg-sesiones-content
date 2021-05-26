@@ -40,7 +40,13 @@ function searchPostContent() {
         $ponenteAvatar = get_avatar($users[0][0]);
         $userName = xprofile_get_field_data('1', $users[0][0]);
         $userLastName = xprofile_get_field_data('2', $users[0][0]);
-                
+        $ponentesList = [];
+        foreach ($users as $key => $value) {
+          foreach ($value as $key2 => $value3) {
+            array_push($ponentesList, get_avatar($value3)); 
+          }
+        }
+
         $listado[] = array(
             'objeto' =>$post,
             'slug' => get_the_terms( $post->ID, 'tipo-sesion' )[0]->slug,
@@ -60,8 +66,9 @@ function searchPostContent() {
             'content' => wp_trim_words( $post->post_content, 30, '...' ),
             'excerpt' => wp_trim_words( $post->post_excerpt, 40 ),
             'link' => get_permalink( $post->ID ),
-            'date' => date_i18n( "l d F", $unixtimestamp ),
-            'type' => $post->post_type
+            'date' => date_i18n( "d / m / Y", $unixtimestamp ),
+            'type' => $post->post_type,
+            'ponentes' => $ponentesList
         );
     }
     header("Content-type: application/json");

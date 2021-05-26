@@ -14,7 +14,11 @@ const template = ({
   excerpt,
   dateIcon,
   date,
+  ponentes,
 }) => {
+  const [ponente, ...rest] = ponentes;
+  const listPonentes = rest.map((images) => images);
+
   return `<div class="bfg-item-sesiones bfg-${tipoSesion} bfg-${categoriaSesion}">
             <a class="no-color" href="${link}">
               <div class="bfg-header-cover-sesiones item-profile flex"
@@ -34,27 +38,32 @@ const template = ({
                       ${(author !== null) ? `${authorName} ${authorLastName}` : authorDefault}
                     </span>
                     <!-- <a href="<?php the_permalink(); ?>">Link</a> -->
-
                   </div>
                 </hgroup>
               </div>
-              <span class="line-divisor ${tipoSesion}"></span>
-              <div class="bfg-content-inprofile">
-                <p>
-                  ${excerpt === '' ? content : excerpt}
-                </p>
-              </div>
-              <div class="line footer-date"></div>
-              <div class="flex bfg-footer-item">
-                <div class="bfg-icon-date inprofile">
-                  <img src="${dateIcon}" alt="">
-                </div>
-                <div class="bfg-block time-footer">
+                <span class="line-divisor ${tipoSesion}"></span>
+                <div class="bfg-content-inprofile">
                   <p>
-                      ${date}
+                    ${excerpt === '' ? content : excerpt}
                   </p>
                 </div>
-              </div>
+                <div class="line footer-date"></div>
+              
+                <div class="flex bfg-footer-item">
+                  <div class="bfg-date-wrapper">
+                    <div class="bfg-icon-date inprofile">
+                      <img src="${dateIcon}" alt="">
+                    </div>
+                    <div class="bfg-block time-footer">
+                      <p>
+                          ${date}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="bfg-miembros-sesiones-page-list flex bfg-flex-grap">
+                    ${listPonentes.join('')}
+                  </div>
+                </div>
             </a>
             </div>`;
 };
