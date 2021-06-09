@@ -40,16 +40,10 @@ function bfg_sesiones_shortcode($atts)
 	}
 	$args = array(
 		'post_type' => 'sesiones',
-		'posts_per_page' => -1,
-		'orderby' => 'DESC',
-		'tax_query' => array(
-			'relation' => 'OR',
-			array(
-				'taxonomy' => 'categoria-sesion',
-				'field'    => 'slug',
-				'terms'    => $tempTerms,
-			)
-		),
+		'posts_per_page' => 5,
+		'hide_empty' => false,
+		'orderby' => 'slug',
+		'order' => 'ASC',
 	);
 	$the_query = new WP_Query($args);
 	$termsText = implode(' ', $odsCategoryText);
@@ -58,7 +52,6 @@ function bfg_sesiones_shortcode($atts)
 	if ($the_query->have_posts()) {
 		$output .= '<div class="bfg-shorcode-container bb-block-header">';
 		$output .= '<h5>'.$title.'</h5>';
-		$output .= '<div class="bfg-terms-fav">'.$termsText.'</div>';
 		$output .= '<div class="wrapper-post-profile flex bfg-flex-grap bfg-slick-slider">';
 		while ( $the_query->have_posts() ) : $the_query->the_post();
 				 ob_start();
