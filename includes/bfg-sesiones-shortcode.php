@@ -18,14 +18,19 @@ function bfg_sesiones_shortcode($atts)
 
   $odsCategory = xprofile_get_field_data('341', $current_user->ID, $multi_format = 'comma');
   $odsCategoryText = xprofile_get_field_data('341', $current_user->ID);
+	$classSlide = '';
 
 	$layoutLibrery = ["list", "block". "slide"];
 	$templateLayout = "";
 	
 	if($layout === 'list') {
-		$templateLayout = 'template-parts/content-sesiones-list';		
+		$templateLayout = 'template-parts/content-sesiones-list';
+	} else if($layout === 'slide'){
+		$templateLayout = 'template-parts/content-sesiones-slide';
+		$classSlide = 'flex bfg-flex-grap bfg-slick-slider bfg-slide-sesiones';
 	} else {
-		$templateLayout = 'template-parts/content-sesiones-item';
+		$templateLayout = 'template-parts/content-sesiones-list';
+
 	}
 	$splitStringTemp = [];
 	$categorySplit = explode(",", $odsCategory);
@@ -40,7 +45,7 @@ function bfg_sesiones_shortcode($atts)
 	}
 	$args = array(
 		'post_type' => 'sesiones',
-		'posts_per_page' => 5,
+		'posts_per_page' => 10,
 		'hide_empty' => false,
 		'orderby' => 'slug',
 		'order' => 'ASC',
@@ -50,9 +55,9 @@ function bfg_sesiones_shortcode($atts)
 	$output = '';
 
 	if ($the_query->have_posts()) {
-		$output .= '<div class="bfg-shorcode-container bb-block-header">';
-		$output .= '<h5>'.$title.'</h5>';
-		$output .= '<div class="wrapper-post-profile flex bfg-flex-grap bfg-slick-slider">';
+		$output .= '<div class="bfg-shorcode-container bb-block-header dash-bfg-slide">';
+		$output .= '<div class="elementor-widget-container">';
+		$output .= '<div class="wrapper-post-profile  '.$classSlide.'">';
 		while ( $the_query->have_posts() ) : $the_query->the_post();
 				 ob_start();
 				 get_template_part( $templateLayout );
@@ -64,6 +69,7 @@ function bfg_sesiones_shortcode($atts)
 				 $output .= '<a class="button-small inverse" href="' . get_home_url() . '/news">See All Archives</a>';
 				 $output .= '</div>';
 		}
+		$output .= '</div>';
 		$output .= '</div>';
 		$output .= '</div>';
 	} 
