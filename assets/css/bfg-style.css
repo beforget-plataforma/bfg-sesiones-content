@@ -1,27 +1,27 @@
 
 .beforget-club{
-  background: #afeb87;
+  background: #afeb87 !important;
 }
 .beforget-talks{
-  background: #fb856f;
+  background: #fb856f !important;
 }
 a.beforget-proximamente{
   color: white !important;
 }
 .beforget-proximamente{
-  background: #04166c;
+  background: #04166c !important;
 }
 .beforget-plus{
-  background: #666de0;
+  background: #666de0 !important;
 }
 .beforget-basics{
-  background: #fa7121;
+  background: #fa7121 !important;
 }
 .beforget-express{
-  background: #fded74;
+  background: #fded74 !important;
 }
 .beforget-talent{
-  background: #97ddda;
+  background: #97ddda !important;
 }
 
 .bfg-button-nav:after{
