@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 /**
  * Filtramos los post que mostramos en Talks por cada usuario
  */
-function bfg_sesiones_posts()
+function sesiones_posts()
 {
 	$user_id = bp_displayed_user_id();
 	$profileUserID = bp_displayed_user_id();
@@ -151,4 +151,4 @@ function bfg_sesiones_posts()
 		<?php
 	}
 }
-add_shortcode('sesiones-posts', 'bfg_sesiones_posts');
+add_shortcode('sesiones-posts', 'sesiones_posts');
