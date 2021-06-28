@@ -1,10 +1,15 @@
 import { getServicesTerms } from './services';
 import template from './template';
 
+let transformObjToArray = [];
+let transformObjToArrayCatSesiones = [];
+
 const bfgFilterContent = {
   verMas: document.querySelector('.ver-mas-sesiones'),
   bfgNavFilter: document.querySelectorAll('.bfg-filter-button'),
-  queryMaxWidth800: window.matchMedia("(max-width: 800px)"),
+  filterSesionesTipo: document.querySelector('#bfg-filter-tipo-sesiones'),
+  resultadosSesionesTipo: document.querySelector('.bfg-count-resultados'),
+  displayCatAndType: [],
   postsTipo: [],
   postsCategory: [],
   empty: false,
@@ -77,11 +82,7 @@ const bfgFilterContent = {
       _check.disabled = state;
     })
   },
-  getPosts: (type) => {
-    let transformObjToArray = [];
-    let transformObjToArrayCatSesiones = [];
-    const filterSesionesTipo = document.querySelector('#bfg-filter-tipo-sesiones');
-    let resultadosSesionesTipo = document.querySelector('.bfg-count-resultados');
+  getPosts: async(type) => {
     const data = new FormData();
 
     if(!Array.isArray(wp_pageviews_ajax.taxSesionesType)) {
@@ -120,88 +121,134 @@ const bfgFilterContent = {
     data.append('searchCategory', bfgFilterContent.postsCategory);
     data.append('type', type);
 
-    filterSesionesTipo.classList.add('loading');
-    resultadosSesionesTipo.innerHTML = '';
+    bfgFilterContent.filterSesionesTipo.classList.add('loading');
+    bfgFilterContent.resultadosSesionesTipo.innerHTML = '';
     bfgFilterContent.stateFilter(true, .8, 'default');
-    getServicesTerms(data).then(sesiones => {
-      const chunk = (arr, size) => arr.reduce((acc, e, i) => (i % size ? acc[acc.length - 1].push(e) : acc.push([e]), acc), []);
-      bfgFilterContent.dataChunk = chunk(sesiones, 9)
-      bfgFilterContent.gotoSesion = 0;
-      bfgFilterContent.dataLength = bfgFilterContent.dataChunk.length;
 
-      if(bfgFilterContent.dataChunk.length >= 2 ){
-        bfgFilterContent.verMas.classList.add('active')
-        bfgFilterContent.verMas.disabled = false
-      }else{
-        bfgFilterContent.verMas.classList.remove('active')
-        bfgFilterContent.verMas.disabled = true
-      }
-      if (sesiones) {
-        bfgFilterContent.render(bfgFilterContent.dataChunk[0], 'inner');
-        bfgFilterContent.gotoSesion = 1;
+   
+    const _sesiones = await getServicesTerms(data);
+    const termFromStorage = (sessionStorage.getItem('sesionesTerms') !== null) ? [...JSON.parse(sessionStorage.getItem('sesionesTerms'))] : [];
+    const termsSelectedFromStorage = [
+        termFromStorage, 
+        ...bfgFilterContent.postsCategory, 
+        ...bfgFilterContent.postsTipo
+    ];
+    const filterSlected = [...new Set(termsSelectedFromStorage)]
+    // if(bfgFilterContent.empty) {
+    //   sessionStorage.setItem('sesionesTerms', JSON.stringify([]));
+    // } else {
+    //   sessionStorage.setItem('sesionesTerms', JSON.stringify(termsSelectedFromStorage));
+    // }
 
-        if(bfgFilterContent.empty) {
-          bfgFilterContent.postsTipo = [];
-          bfgFilterContent.postsCategory = [];
-          bfgFilterContent.empty = false;
-        }
-      }
-      filterSesionesTipo.classList.remove('loading');
 
-      const displayCatAndType = [...bfgFilterContent.postsCategory, ...bfgFilterContent.postsTipo];
-
-      const initialTaxSesiones = (tax) => {
-        return tax.map( taxo => {
-          return {
-            name: taxo.name,
-            slug: taxo.slug
-          }
-        })
-      };
-      
-
-      const tipoSesiones = initialTaxSesiones(transformObjToArray);
-      const catSesiones = initialTaxSesiones(transformObjToArrayCatSesiones);
-      
-      const getNameTypeSesiones = displayCatAndType.map(tax => {
-        const valueName = tipoSesiones.find(taxonomy => {
-          if(taxonomy.slug === tax) {
-            return taxonomy
-          }
-        });
-        return  valueName
-      })
-      const getNameCatSesiones = displayCatAndType.map(tax => {
-        const valueName = catSesiones.find(taxonomy => {
-          if(taxonomy.slug === tax) {
-            return taxonomy
-          }
-        });
-        return  valueName
-      })
-      const getNamesTaxonomies = (typeTax) => {
-        const filtered = typeTax.filter(function (el) {
-          return el != undefined;
-        });
-        return filtered
-      }
-      const renderDisplayCatAndType = () => {
-        const sesiones = [...getNamesTaxonomies(getNameTypeSesiones), ...getNamesTaxonomies(getNameCatSesiones)];
-        const sesionesTem = sesiones.map(s => s.name);
-        return sesionesTem.map(tax => `<span><b> ${tax} </b></span>`)
-      }
-      const temp = renderDisplayCatAndType(displayCatAndType);
-      if(bfgFilterContent.initApp && (displayCatAndType.length > 0)) {
-        resultadosSesionesTipo.innerHTML = `<span>Hemos encontrado <b>${sesiones.length}</b> sesiones para ${temp.join(',')}.</span>`;
-      } else {
-        resultadosSesionesTipo.innerHTML = `<span>Tenemos un total de <b>${sesiones.length}</b> sesiones.</span>`;
-      };
-      bfgFilterContent.stateFilter(false, 1, 'pointer')
-    })
+    showListPost(_sesiones);
+    sessionStorage.setItem('postList', JSON.stringify(_sesiones));
+    // sessionStorage.setItem('sesionesTerms', JSON.stringify(mergetermsArray));
   },
 };
+const showListPost = (sesiones) => {
+  const chunk = (arr, size) => arr.reduce((acc, e, i) => (i % size ? acc[acc.length - 1].push(e) : acc.push([e]), acc), []);
+  bfgFilterContent.dataChunk = chunk(sesiones, 9);
+  bfgFilterContent.gotoSesion = 0;
+  bfgFilterContent.dataLength = bfgFilterContent.dataChunk.length;
+
+  if (bfgFilterContent.dataChunk.length >= 2) {
+    bfgFilterContent.verMas.classList.add('active');
+    bfgFilterContent.verMas.disabled = false;
+  } else {
+    bfgFilterContent.verMas.classList.remove('active');
+    bfgFilterContent.verMas.disabled = true;
+  }
+  if (sesiones) {
+    bfgFilterContent.render(bfgFilterContent.dataChunk[0], 'inner');
+    bfgFilterContent.gotoSesion = 1;
+
+    if (bfgFilterContent.empty) {
+      bfgFilterContent.postsTipo = [];
+      bfgFilterContent.postsCategory = [];
+      bfgFilterContent.empty = false;
+    }
+  }
+  let mergetermsArray = [];
+  bfgFilterContent.filterSesionesTipo.classList.remove('loading');
+
+  if(!bfgFilterContent.initApp) {
+    if(sessionStorage.getItem('sesionesTerms') === null) {
+      // sessionStorage.setItem('sesionesTerms', JSON.stringify(bfgFilterContent.displayCatAndType));
+    } else {
+      // bfgFilterContent.displayCatAndType = JSON.parse(sessionStorage.getItem('sesionesTerms'));
+    }
+  }else {
+    // sessionStorage.setItem('sesionesTerms', []);
+    const newArrayMerge = [...bfgFilterContent.postsCategory, ...bfgFilterContent.postsTipo]
+    mergetermsArray = [...new Set(newArrayMerge)];
+    // sessionStorage.setItem('sesionesTerms', JSON.stringify(mergetermsArray));
+    bfgFilterContent.displayCatAndType = mergetermsArray;
+    
+  }
+
+  const initialTaxSesiones = (tax) => {
+    return tax.map(taxo => {
+      return {
+        name: taxo.name,
+        slug: taxo.slug
+      };
+    });
+  };
+
+  const tipoSesiones = initialTaxSesiones(transformObjToArray);
+  const catSesiones = initialTaxSesiones(transformObjToArrayCatSesiones);
+
+  const getNameTypeSesiones = bfgFilterContent.displayCatAndType.map(tax => {
+    const valueName = tipoSesiones.find(taxonomy => {
+      if (taxonomy.slug === tax) {
+        return taxonomy;
+      }
+    });
+    return valueName;
+  });
+  const getNameCatSesiones = bfgFilterContent.displayCatAndType.map(tax => {
+    const valueName = catSesiones.find(taxonomy => {
+      if (taxonomy.slug === tax) {
+        return taxonomy;
+      }
+    });
+    return valueName;
+  });
+  const getNamesTaxonomies = (typeTax) => {
+    const filtered = typeTax.filter(function (el) {
+      return el != undefined;
+    });
+    return filtered;
+  };
+  const renderDisplayCatAndType = () => {
+    const sesiones = [...getNamesTaxonomies(getNameTypeSesiones), ...getNamesTaxonomies(getNameCatSesiones)];
+    const sesionesTem = sesiones.map(s => s.name);
+    return sesionesTem.map(tax => `<span><b> ${tax} </b></span>`);
+  };
+  const temp = renderDisplayCatAndType(bfgFilterContent.displayCatAndType);
+  if (bfgFilterContent.initApp && (bfgFilterContent.displayCatAndType.length > 0)) {
+    bfgFilterContent.resultadosSesionesTipo.innerHTML = `<span>Hemos encontrado <b>${sesiones.length}</b> sesiones para ${temp.join(',')}.</span>`;
+  } else {
+    bfgFilterContent.resultadosSesionesTipo.innerHTML = `<span>Tenemos un total de <b>${sesiones.length}</b> sesiones.</span>`;
+  };
+  bfgFilterContent.stateFilter(false, 1, 'pointer');
+}
 
 document.addEventListener('DOMContentLoaded', function () {
   bfgFilterContent.init();
+  if(sessionStorage.getItem('postList') !== null && sessionStorage.getItem('sesionesTerms') !== null) {
+    showListPost(JSON.parse(sessionStorage.getItem('postList')));
+    bfgFilterContent.displayCatAndType.forEach(el => {
+      const activeButtonStorage = document.querySelector('.bfg-wrapper-filter').querySelector('.' + el);
+      const _check = activeButtonStorage.querySelector('input');
+      _check.parentElement.style.opacity = 0.8;
+      _check.parentElement.style.cursor = 'default'
+      _check.checked = true;
+      // console.log(el.className == el);
+      // console.log(bfgFilterContent.bfgNavFilter.querySelectorAll('.' + el));
+    })
+    return
+  }
   bfgFilterContent.getPosts('tipo-sesion');
 });
