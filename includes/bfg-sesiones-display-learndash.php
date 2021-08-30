@@ -32,7 +32,7 @@ function bfg_sesiones_posts_learndash($atts)
 		$output .= '<div class="wrapper-post-profile flex bfg-flex-grap">';
 		while ( $the_query->have_posts() ) : $the_query->the_post();
 				 ob_start();
-				 get_template_part( 'template-parts/content-sesiones-item', null, array( 
+				 get_template_part( 'template-parts/content-sesiones-learndash', null, array( 
 					'category' => $tipoCategoria));
 				 $output .= ob_get_clean();
 		endwhile;

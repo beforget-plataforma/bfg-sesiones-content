@@ -16,19 +16,7 @@ require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-style-register.p
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-post-type.php';
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-display-profile.php';
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-register-scripts.php';
-require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-shortcode.php';
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-display-learndash.php';
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-api.php';
 require_once plugin_dir_path(__FILE__) . 'includes/bfg-sesiones-rest-api.php';
-
-// register_activation_hook(__FILE__, 'rewrite_flush');
-
-// 
-function bfg_get_the_excerpt($post_id) {
-  global $post;  
-  $save_post = $post;
-  $post = get_post($post_id);
-  $output = get_the_excerpt();
-  $post = $save_post;
-  return $output;
-}		
+register_activation_hook(__FILE__, 'rewrite_flush');

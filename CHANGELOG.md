@@ -1,3 +1,7 @@
+##  2.2 (mayo, 2021)
+### Quitamos el ShortCode y los pasamos al nuevo plugins
+* Refactor de funciones cambiando el shortcode a nuevo plugin.
+
 ##  2.1 (mayo, 2021)
 ###  Corrección de listado en perfiles
 * El funcionamiento del filtro por perfil del usuario no era el correcto. Los resultados que se obtenían en algunos casos eran correctos pero en otros no.
