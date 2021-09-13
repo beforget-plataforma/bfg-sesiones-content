@@ -1,4 +1,4 @@
-<?
+<?php
 function searchPostContent() {
   $searchTipo = $_POST['searchTipo'];
   $searchCategory = $_POST['searchCategory'];

@@ -1,4 +1,4 @@
-<?
+<?php
 function getSesionesContentRestApi() {
     $searchTipo = $_GET['tipo'];
     $searchCategory = $_GET['category'];

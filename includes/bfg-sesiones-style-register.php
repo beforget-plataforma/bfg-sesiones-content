@@ -1,4 +1,4 @@
-<?
+<?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 function wpdocs_register_plugin_styles_sessiones() {

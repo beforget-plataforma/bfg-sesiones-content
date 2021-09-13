@@ -22,7 +22,7 @@ function sesiones_posts()
 	if ($the_query->have_posts()) {
 	?>
 	<div class="wrapper-post-profile flex bfg-flex-grap">
-  <?
+  <?php
 		while ($the_query->have_posts()) {
 			$the_query->the_post();
 			$terms = get_the_terms( $post->ID, 'tipo-sesion' );
@@ -31,8 +31,8 @@ function sesiones_posts()
 			$participantes = get_post_meta( get_the_ID(), 'ponente', true);
 	
 			?>
-  <? if($participantes): ?>
-		<?
+  <?php if($participantes): ?>
+		<?php
 			if(false !== array_search($profileUserID, $participantes)) {
 				$existPonent = true;
 				?>
@@ -41,7 +41,7 @@ function sesiones_posts()
 						<div class="bfg-header-cover-sesiones item-profile flex"
 							style="background-color:<?php the_field('brand_color'); ?>">
 							<span class="bfg-icon-smile inprofile">
-								<img src="<? echo wp_get_attachment_url(171); ?>" alt="">
+								<img src="<?php echo wp_get_attachment_url(171); ?>" alt="">
 							</span>
 							<hgroup>
 								<div class="bfg-container-title item-profile ">
@@ -50,10 +50,10 @@ function sesiones_posts()
 										$short_title = wp_trim_words( $title, 12, '...' );
 									?>
 									<h1>
-										<? echo $title; ?>
+										<?php echo $title; ?>
 									</h1>
 								</div>
-								<?
+								<?php
 									$args = array( 
 										'item_id' => get_the_author_meta('ID')
 									); 
@@ -67,11 +67,11 @@ function sesiones_posts()
 
 									?>
 								<div class="bfg-profile-author bfg-icon-small">
-									<?
+									<?php
 										echo $ponenteAvatar;
 									?>
 									<span>
-										<? echo $userName . ' ' . $userLastName; ?>
+										<?php echo $userName . ' ' . $userLastName; ?>
 									</span>
 								</div>
 							</hgroup>
@@ -96,7 +96,7 @@ function sesiones_posts()
 								</div>
 							</div>
 							<div class="bfg-miembros-proyecto flex bfg-flex-grap">
-								<?
+								<?php
 									$index = 0;
 									foreach($participantes as $userID){
 										$userName = xprofile_get_field_data('1', $userID);
@@ -113,32 +113,32 @@ function sesiones_posts()
 						</div>
 					</a>
 				</div>
-			<?
+			<?php
 		} else {
 			// print($countRest);
 			// print($the_query->found_posts);
 			$countRest ++;
 		}
 	?>
-  <? else: ?>
+  <?php else: ?>
 		
 		
-  <? endif; ?>
-		<? if((($count + 1) == $the_query->found_posts) && !$existPonent){ ?>
+  <?php endif; ?>
+		<?php if((($count + 1) == $the_query->found_posts) && !$existPonent){ ?>
 			<aside class="bp-feedback bp-messages info">
 				<span class="bp-icon" aria-hidden="true"></span>
 				<p>
 					Aún no has publicado ninguna sesión.
 				</p>
 			</aside>
-			<?
+			<?php
 			}
 			$count ++;
 		?>
-  <? } 
+  <?php } 
 	?>
 </div>
-<?
+<?php
 	wp_reset_postdata();
 } else {
 		?>
